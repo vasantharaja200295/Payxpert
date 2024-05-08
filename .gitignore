@@ -1,0 +1,6 @@
+.venv
+dao/__pycache__
+entity/__pycache__
+exceptions/__pycache__
+main/__pycache__
+util/__pycache__
