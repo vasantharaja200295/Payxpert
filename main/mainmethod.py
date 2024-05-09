@@ -28,17 +28,18 @@ class MainModule:
             elif choice == '4':
                 self.financial_reporting()
             elif choice == '5':
+                print("\nThank you for using the application. Goodbye!")
                 break
             else:
-                print("Invalid choice. Please try again.")
+                print("\nInvalid choice. Please try again.")
 
     def main_menu(self):
-        print("\n=== Main Menu ===")
+        print("\n payXpert")
         print("1. Employee Management")
         print("2. Payroll Processing")
         print("3. Tax Calculation")
         print("4. Financial Reporting")
-        print("5. Exit")
+        print("5. Exit Application")
 
     def employee_management(self):
         while True:
@@ -58,14 +59,14 @@ class MainModule:
             elif emp_choice == '6':
                 break
             else:
-                print("Invalid choice. Please try again.")
+                print("\nInvalid choice. Please try again.")
 
     def employee_menu(self):
-        print("\n=== EMPLOYEE TABLE ===")
+        print("\n Employee Management ")
         print("1. Get Employee by ID")
-        print("2. Get All Employees")
-        print("3. Add Employee")
-        print("4. Update Employee")
+        print("2. View All Employees")
+        print("3. Add New Employee")
+        print("4. Update Employee Details")
         print("5. Remove Employee")
         print("6. Back to Main Menu")
 
@@ -73,18 +74,21 @@ class MainModule:
         emp_id = input("Enter Employee ID: ").strip()
         try:
             employee = self.employee_service.get_employee_by_id(int(emp_id))
-            print("Employee:", employee)
+            print(f"\nEmployee Details:\n{employee}")
         except EmployeeNotFoundException as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def get_all_employees(self):
         try:
             employees = self.employee_service.get_all_employees()
-            print("Employees:", employees)
+            print("\nList of Employees:")
+            for employee in employees:
+                print(employee)
         except DatabaseConnectionException as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def add_employee(self):
+        print("\nEnter Employee Details:")
         first_name = input("Enter First Name: ").strip()
         last_name = input("Enter Last Name: ").strip()
         dob_str = input("Enter Date of Birth (YYYY-MM-DD): ").strip()
@@ -104,15 +108,16 @@ class MainModule:
 
         try:
             self.employee_service.add_employee(new_employee)
-            print("Employee added successfully")
+            print("\nEmployee added successfully!")
         except (InvalidInputException, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def update_employee(self):
         emp_id = input("Enter Employee ID to update: ").strip()
         try:
             employee = self.employee_service.get_employee_by_id(int(emp_id))
             if employee:
+                print(f"\nUpdate Details for Employee {employee.first_name} {employee.last_name}:")
                 employee.first_name = input("Enter First Name: ").strip()
                 employee.last_name = input("Enter Last Name: ").strip()
                 employee.dob_str = input("Enter Date of Birth (YYYY-MM-DD): ").strip()
@@ -125,19 +130,19 @@ class MainModule:
                 employee.termination_date_str = input("Enter Termination Date (YYYY-MM-DD, optional): ").strip()
 
                 self.employee_service.update_employee(employee)
-                print("Employee updated successfully")
+                print("\nEmployee details updated successfully!")
             else:
-                print("Employee not found with ID:", emp_id)
+                print(f"\nNo employee found with ID: {emp_id}")
         except (EmployeeNotFoundException, InvalidInputException, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def remove_employee(self):
         emp_id = input("Enter Employee ID to remove: ").strip()
         try:
             self.employee_service.remove_employee(int(emp_id))
-            print("Employee removed successfully")
+            print(f"\nEmployee with ID {emp_id} removed successfully!")
         except (EmployeeNotFoundException, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def payroll_processing(self):
         while True:
@@ -155,10 +160,10 @@ class MainModule:
             elif payroll_choice == '5':
                 break
             else:
-                print("Invalid choice. Please try again.")
+                print("\nInvalid choice. Please try again.")
 
     def payroll_menu(self):
-        print("\n=== PAYROLL TABLE ===")
+        print("\n Payroll Processing ")
         print("1. Generate Payroll")
         print("2. Get Payroll by ID")
         print("3. Get Payrolls for Employee")
@@ -174,25 +179,28 @@ class MainModule:
             start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
             end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
             payroll = self.payroll_service.generate_payroll(int(emp_id), start_date, end_date)
-            print("Payroll generated successfully:", payroll)
+            print("\nPayroll generated successfully:")
+            print(payroll)
         except (EmployeeNotFoundException, PayrollGenerationException, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def get_payroll_by_id(self):
         payroll_id = input("Enter Payroll ID: ").strip()
         try:
             payroll = self.payroll_service.get_payroll_by_id(int(payroll_id))
-            print("Payroll:", payroll)
+            print(f"\nPayroll Details:\n{payroll}")
         except (EmployeeNotFoundException, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def get_payrolls_for_employee(self):
         emp_id = input("Enter Employee ID: ").strip()
         try:
             payrolls = self.payroll_service.get_payrolls_for_employee(int(emp_id))
-            print("Payrolls for Employee:", payrolls)
+            print("\nPayrolls for Employee:")
+            for payroll in payrolls:
+                print(payroll)
         except (EmployeeNotFoundException, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def get_payrolls_for_period(self):
         start_date_str = input("Enter Pay Period Start Date (YYYY-MM-DD): ").strip()
@@ -202,9 +210,11 @@ class MainModule:
             start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
             end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
             payrolls = self.payroll_service.get_payrolls_for_period(start_date, end_date)
-            print("Payrolls for Period:", payrolls)
+            print("\nPayrolls for Period:")
+            for payroll in payrolls:
+                print(payroll)
         except DatabaseConnectionException as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def tax_calculation(self):
         while True:
@@ -222,10 +232,10 @@ class MainModule:
             elif tax_choice == '5':
                 break
             else:
-                print("Invalid choice. Please try again.")
+                print("\nInvalid choice. Please try again.")
 
     def tax_menu(self):
-        print("\n=== TAX TABLE ===")
+        print("\n Tax Calculation ")
         print("1. Calculate Tax")
         print("2. Get Tax by ID")
         print("3. Get Taxes for Employee")
@@ -238,33 +248,37 @@ class MainModule:
 
         try:
             tax_amount = self.tax_service.calculate_tax(int(emp_id), int(tax_year))
-            print("Tax calculated successfully:", tax_amount)
+            print(f"\nTax calculated successfully:\nTax Amount: {tax_amount}")
         except (EmployeeNotFoundException, TaxCalculationException, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def get_tax_by_id(self):
         tax_id = input("Enter Tax ID: ").strip()
         try:
             tax = self.tax_service.get_tax_by_id(int(tax_id))
-            print("Tax:", tax)
+            print(f"\nTax Details:\n{tax}")
         except (EmployeeNotFoundException, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def get_taxes_for_employee(self):
         emp_id = input("Enter Employee ID: ").strip()
         try:
             taxes = self.tax_service.get_taxes_for_employee(int(emp_id))
-            print("Taxes for Employee:", taxes)
+            print("\nTaxes for Employee:")
+            for tax in taxes:
+                print(tax)
         except (EmployeeNotFoundException, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def get_taxes_for_year(self):
         tax_year = input("Enter Tax Year: ").strip()
         try:
             taxes = self.tax_service.get_taxes_for_year(int(tax_year))
-            print("Taxes for Year:", taxes)
+            print(f"\nTaxes for Year {tax_year}:")
+            for tax in taxes:
+                print(tax)
         except DatabaseConnectionException as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def financial_reporting(self):
         while True:
@@ -282,10 +296,10 @@ class MainModule:
             elif financial_choice == '5':
                 break
             else:
-                print("Invalid choice. Please try again.")
+                print("\nInvalid choice. Please try again.")
 
     def financial_menu(self):
-        print("\n=== FINANCIAL RECORD TABLE ===")
+        print("\nFinancial Reporting ")
         print("1. Add Financial Record")
         print("2. Get Financial Record by ID")
         print("3. Get Financial Records for Employee")
@@ -300,33 +314,41 @@ class MainModule:
 
         try:
             financial_record = self.financial_record_service.add_financial_record(int(emp_id), description,
-                                                                                  float(amount), record_type)
-            print("Financial Record added successfully:", financial_record)
+                                                                                    float(amount), record_type)
+            print("\nFinancial Record added successfully:")
+            print(financial_record)
         except (EmployeeNotFoundException, InvalidInputException, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def get_financial_record_by_id(self):
         record_id = input("Enter Record ID: ").strip()
         try:
             financial_record = self.financial_record_service.get_financial_record_by_id(int(record_id))
-            print("Financial Record:", financial_record)
+            print(f"\nFinancial Record Details:\n{financial_record}")
         except (FinancialRecordException, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def get_financial_records_for_employee(self):
         emp_id = input("Enter Employee ID: ").strip()
         try:
             financial_records = self.financial_record_service.get_financial_records_for_employee(int(emp_id))
-            print("Financial Records for Employee:", financial_records)
+            print("\nFinancial Records for Employee:")
+            for record in financial_records:
+                print(record)
         except (EmployeeNotFoundException, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
     def get_financial_records_for_date(self):
         record_date_str = input("Enter Record Date (YYYY-MM-DD): ").strip()
         try:
             record_date = datetime.strptime(record_date_str, "%Y-%m-%d")
             financial_records = self.financial_record_service.get_financial_records_for_date(record_date)
-            print("Financial Records for Date:", financial_records)
+            print(f"\nFinancial Records for Date {record_date_str}:")
+            for record in financial_records:
+                print(record)
         except (ValueError, DatabaseConnectionException) as e:
-            print("Error:", e)
+            print(f"\nError: {e}")
 
+if __name__ == "__main__":
+    main_module = MainModule()
+    main_module.run()
