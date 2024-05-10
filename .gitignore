@@ -1,6 +1,11 @@
 .venv
-dao/__pycache__
-entity/__pycache__
-exceptions/__pycache__
-main/__pycache__
-util/__pycache__
+.vscode
+.pytest_cache
+code_base.txt
+codebase_gen.py
+main.py
+payxpert/dao/__pycache__
+payxpert/entity/__pycache__
+payxpert/exceptions/__pycache__
+payxpert/main/__pycache__
+payxpert/util/__pycache__
