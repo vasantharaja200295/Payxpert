@@ -1,4 +1,3 @@
-# dao/employee_service.py
 from abc import ABC, abstractmethod
 from entity.employee import Employee
 from exception.employee_not_found_exception import EmployeeNotFoundException

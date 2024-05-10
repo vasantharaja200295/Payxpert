@@ -1,4 +1,3 @@
-# dao/payroll_service.py
 from abc import ABC, abstractmethod
 from entity.payroll import Payroll
 from exception.payroll_generation_exception import PayrollGenerationException
@@ -28,7 +27,6 @@ class PayrollService(IPayrollService):
     def generate_payroll(self, employee_id, start_date, end_date):
         cursor = self.db_connection.cursor()
 
-        # Check if the employee exists
         query = "SELECT * FROM Employee WHERE EmployeeID = %s"
         cursor.execute(query, (employee_id,))
         employee = cursor.fetchone()
@@ -36,14 +34,11 @@ class PayrollService(IPayrollService):
         if not employee:
             raise EmployeeNotFoundException(f"Employee with ID {employee_id} not found.")
 
-        # Calculate the payroll details (basic salary, overtime pay, deductions, etc.)
-        # Implement your payroll calculation logic here
-        basic_salary = 5000.0  # Example value, replace with your calculation
-        overtime_pay = 500.0  # Example value, replace with your calculation
-        deductions = 1000.0  # Example value, replace with your calculation
+        basic_salary = 5000.0  
+        overtime_pay = 500.0 
+        deductions = 1000.0 
         net_salary = basic_salary + overtime_pay - deductions
 
-        # Insert the payroll record into the database
         query = "INSERT INTO Payroll (EmployeeID, PayPeriodStartDate, PayPeriodEndDate, BasicSalary, OvertimePay, Deductions, NetSalary) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         values = (employee_id, start_date, end_date, basic_salary, overtime_pay, deductions, net_salary)
         cursor.execute(query, values)

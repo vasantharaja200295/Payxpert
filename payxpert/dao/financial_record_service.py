@@ -1,4 +1,3 @@
-# dao/financial_record_service.py
 from abc import ABC, abstractmethod
 from entity.financial_record import FinancialRecord
 from exception.financial_record_exception import FinancialRecordException
@@ -28,7 +27,6 @@ class FinancialRecordService(IFinancialRecordService):
     def add_financial_record(self, employee_id, description, amount, record_type):
         cursor = self.db_connection.cursor()
 
-        # Check if the employee exists
         query = "SELECT * FROM Employee WHERE EmployeeID = %s"
         cursor.execute(query, (employee_id,))
         employee = cursor.fetchone()
@@ -36,7 +34,6 @@ class FinancialRecordService(IFinancialRecordService):
         if not employee:
             raise EmployeeNotFoundException(f"Employee with ID {employee_id} not found.")
 
-        # Insert the financial record into the database
         query = "INSERT INTO FinancialRecord (EmployeeID, RecordDate, Description, Amount, RecordType) VALUES (%s, CURDATE(), %s, %s, %s)"
         values = (employee_id, description, amount, record_type)
         cursor.execute(query, values)

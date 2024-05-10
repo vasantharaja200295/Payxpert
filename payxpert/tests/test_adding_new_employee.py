@@ -1,4 +1,3 @@
-# test_employee_service.py
 import pytest
 from datetime import date
 from dao.employee_service import EmployeeService
@@ -11,23 +10,18 @@ def employee_service():
     return EmployeeService(db_connection)
 
 def test_get_employee_by_id(employee_service):
-    # Arrange
     employee_id = 1
 
-    # Act
     employee = employee_service.get_employee_by_id(employee_id)
 
-    # Assert
     assert employee.employee_id == employee_id
     assert employee.first_name == "Vasantharaja"
     assert employee.last_name == "R"
     assert employee.date_of_birth == date(2002, 9, 5)
 
 def test_get_employee_by_invalid_id(employee_service):
-    # Arrange
     invalid_employee_id = 999
 
-    # Act & Assert
     with pytest.raises(EmployeeNotFoundException):
         employee_service.get_employee_by_id(invalid_employee_id)
 
@@ -47,6 +41,6 @@ def test_add_employee(employee_service):
 
     employee_service.add_employee(new_employee)
 
-    added_employee = employee_service.get_employee_by_id(8)
+    added_employee = employee_service.get_employee_by_id(9)
     assert added_employee is not None
 

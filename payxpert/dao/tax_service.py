@@ -1,4 +1,3 @@
-# dao/tax_service.py
 from abc import ABC, abstractmethod
 from entity.tax import Tax
 from exception.tax_calculation_exception import TaxCalculationException
@@ -29,8 +28,6 @@ class TaxService(ITaxService):
 
     def calculate_tax(self, employee_id, tax_year):
         cursor = self.db_connection.cursor()
-
-        # Check if the employee exists
         query = "SELECT * FROM Employee WHERE EmployeeID = %s"
         cursor.execute(query, (employee_id,))
         employee = cursor.fetchone()
@@ -38,7 +35,6 @@ class TaxService(ITaxService):
         if not employee:
             raise EmployeeNotFoundException(f"Employee with ID {employee_id} not found.")
 
-        # Retrieve the employee's payrolls for the given tax year
         query = "SELECT SUM(NetSalary) AS TaxableIncome FROM Payroll WHERE EmployeeID = %s AND YEAR(PayPeriodEndDate) = %s"
         cursor.execute(query, (employee_id, tax_year))
         result = cursor.fetchone()
@@ -50,7 +46,6 @@ class TaxService(ITaxService):
 
         tax_amount = taxable_income * Decimal('0.2')
 
-        # Insert the tax record into the database
         query = "INSERT INTO Tax (EmployeeID, TaxYear, TaxableIncome, TaxAmount) VALUES (%s, %s, %s, %s)"
         values = (employee_id, tax_year, taxable_income, tax_amount)
         cursor.execute(query, values)

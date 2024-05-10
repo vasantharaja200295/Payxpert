@@ -1,4 +1,3 @@
-# util/db_conn_util.py
 import mysql.connector
 from exception.database_connection_exception import DatabaseConnectionException
 

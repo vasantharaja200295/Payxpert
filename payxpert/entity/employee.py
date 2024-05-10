@@ -23,34 +23,3 @@ class Employee:
             age -= 1
         return age
 
-# entity/payroll.py
-class Payroll:
-    def __init__(self, payroll_id=None, employee_id=None, pay_period_start_date=None, pay_period_end_date=None,
-                 basic_salary=None, overtime_pay=None, deductions=None, net_salary=None):
-        self.payroll_id = payroll_id
-        self.employee_id = employee_id
-        self.pay_period_start_date = pay_period_start_date
-        self.pay_period_end_date = pay_period_end_date
-        self.basic_salary = basic_salary
-        self.overtime_pay = overtime_pay
-        self.deductions = deductions
-        self.net_salary = net_salary
-
-# entity/tax.py
-class Tax:
-    def __init__(self, tax_id=None, employee_id=None, tax_year=None, taxable_income=None, tax_amount=None):
-        self.tax_id = tax_id
-        self.employee_id = employee_id
-        self.tax_year = tax_year
-        self.taxable_income = taxable_income
-        self.tax_amount = tax_amount
-
-# entity/financial_record.py
-class FinancialRecord:
-    def __init__(self, record_id=None, employee_id=None, record_date=None, description=None, amount=None, record_type=None):
-        self.record_id = record_id
-        self.employee_id = employee_id
-        self.record_date = record_date
-        self.description = description
-        self.amount = amount
-        self.record_type = record_type
