@@ -41,6 +41,6 @@ def test_add_employee(employee_service):
 
     employee_service.add_employee(new_employee)
 
-    added_employee = employee_service.get_employee_by_id(9)
+    added_employee = employee_service.get_employee_by_id(14)
     assert added_employee is not None
 

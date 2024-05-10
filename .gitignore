@@ -3,7 +3,6 @@
 .pytest_cache
 code_base.txt
 codebase_gen.py
-main.py
 payxpert/dao/__pycache__
 payxpert/entity/__pycache__
 payxpert/exceptions/__pycache__
